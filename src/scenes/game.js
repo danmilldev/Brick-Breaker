@@ -8,7 +8,13 @@ class Game extends Phaser.Scene
 
     create()
     {
+        this.physics.world.bounds.top = 30
+
         let {width, height} = this.sys.game.canvas
+
+        // addint top ui background
+        const topBackground = this.add.rectangle(0, 0, width * 2, 50, colors.magenta)
+
         const paddleWidth = 150
         const paddleHeight = 20
 
