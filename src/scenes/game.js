@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import colors from "../helpers/colors";
+import scenesManager from "../helpers/scenesManager";
 
 let lives = 3
 let points = 0
@@ -7,6 +8,7 @@ let points = 0
 const paddleWidth = 125
 const paddleHeight = 20
 let isBallMoving = false
+let isHitting = true
 
 const leftBottomDirection = {
     x: -600,
@@ -32,7 +34,7 @@ let directionsArray = [leftBottomDirection, rightBottomDirection, leftTopDirecti
 
 class Game extends Phaser.Scene
 {
-    constructor() {super({ key: "GameScene"})}
+    constructor() {super({ key: scenesManager.GameScene})}
 
 
     create()
@@ -128,8 +130,15 @@ class Game extends Phaser.Scene
     update()
     {
         const cursors = this.input.keyboard.createCursorKeys()
+
         const paddle = this.children.getByName("PlayerPaddle")
         const paddleSpeed = 5
+
+        const ball = this.children.getByName("Ball")
+
+        const livesText = this.children.getByName("LivesText")
+        let {width, height} = this.sys.game.canvas
+        const paddleStartPosX = (width / 2) - (paddleHeight / 2)
 
         if(cursors.left.isDown && isBallMoving)
         {
@@ -146,6 +155,30 @@ class Game extends Phaser.Scene
                 paddle.x += paddleSpeed
                 paddle.body.position.x += paddleSpeed
             }
+        }
+
+        if(ball.y == height - 10)
+        {
+            if(isHitting)
+            {
+                lives -= 1
+                livesText.setText("Lives: " + lives)
+
+                if(lives <= 0 || lives > 3)
+                {
+                    ball.x = paddleStartPosX
+                    lives = 3
+                    points = 0
+                    isBallMoving = false
+                    this.scene.switch(scenesManager.MenuScene)
+                }
+
+                isHitting = false
+            }
+        }
+        else if(ball.y < height - (height / 10))
+        {
+            isHitting = true
         }
     }
 }

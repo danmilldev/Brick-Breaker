@@ -1,8 +1,9 @@
 import Phaser from "phaser";
+import scenesManager from "../helpers/scenesManager";
 
 class Menu extends Phaser.Scene
 {
-    constructor() {super({ key: "MenuScene"})}
+    constructor() {super({ key: scenesManager.MenuScene})}
 
     create()
     {
@@ -13,8 +14,8 @@ class Menu extends Phaser.Scene
         {
             if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER)
             {
-                this.scene.stop("MainMenuScene")
-                this.scene.switch("GameScene")
+                this.scene.stop(scenesManager.MenuScene)
+                this.scene.switch(scenesManager.GameScene)
             }
         })
     }
