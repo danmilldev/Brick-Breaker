@@ -19,16 +19,24 @@ class Game extends Phaser.Scene
         
 
         // ball to play with
-        const ball = this.add.circle(width / 2 - 10, height / 2, 10, colors.white)
+        const ball = this.add.circle(width / 2 - 10, paddle.getTopCenter().y - 20, 10, colors.white)
         ball.setName("Ball")
         const ballSpeedY = 600
-        const ballSpeedX = 10
+        const ballSpeedX = 50
         this.physics.add.existing(ball)
         ball.body.setCollideWorldBounds(true, 1, 1)
-        ball.body.setVelocity(ballSpeedX, ballSpeedY)
+        ball.body.setVelocity(0, 0)
         ball.body.setBounce(1, 1)
 
         this.physics.add.collider(paddle, ball)
+
+        this.input.keyboard.on('keydown', event =>
+        {
+            if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.SPACE)
+            {
+                ball.body.setVelocity(ballSpeedX, ballSpeedY)
+            }
+        })
     }
 
     update()
@@ -53,6 +61,8 @@ class Game extends Phaser.Scene
                 paddle.body.position.x += paddleSpeed
             }
         }
+
+
     }
 
 }
