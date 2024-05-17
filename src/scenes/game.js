@@ -77,7 +77,6 @@ class Game extends Phaser.Scene
             {
                 let directionCount = Math.floor(Math.random() * (directionsArray.length ))
                 let newDirection = directionsArray[directionCount]
-                console.log(newDirection);
                 ball.body.setVelocity(newDirection.x, newDirection.y)
                 isBallMoving = true
                 startText.visible = false
@@ -172,7 +171,8 @@ class Game extends Phaser.Scene
                     points = 0
                     isBallMoving = false
 
-                    this.scene.switch(scenesManager.MenuScene)
+                    this.scene.stop(scenesManager.GameScene)
+                    this.scene.switch(scenesManager.LostScene)
                 }
 
                 isHitting = false
