@@ -1,6 +1,9 @@
 import Phaser from "phaser";
 import colors from "../helpers/colors";
 
+let lives = 3
+let points = 0
+
 const paddleWidth = 125
 const paddleHeight = 20
 let isBallMoving = false
@@ -34,24 +37,31 @@ class Game extends Phaser.Scene
 
     create()
     {
+        
         this.physics.world.bounds.top = 30
 
         let {width, height} = this.sys.game.canvas
 
-        // addint top ui background
-        const topBackground = this.add.rectangle(0, 0, width * 2, 50, colors.magenta)
+        // UI Bar
+
+        const topBackground = this.add.rectangle(0, 0, width * 2, 50, colors.magenta) // top ui background
+
+        // UI Texts
+        const livesText = this.add.text(width - 90, 5, "Lives: " + lives)
+        livesText.setName("LivesText")
+
+        const pointsText = this.add.text(0, 5, "Points: " + points)
+        pointsText.setName("PointsText")
 
         // player paddle
-        const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.white)
+        const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.blue)
         paddle.setName("PlayerPaddle")
         this.physics.add.existing(paddle, true)
         
 
         // ball to play with
-        const ball = this.add.circle(width / 2 - 10, paddle.getTopCenter().y - 20, 10, colors.white)
+        const ball = this.add.circle(width / 2 - 10, paddle.getTopCenter().y - 20, 10, colors.red)
         ball.setName("Ball")
-        const ballSpeedY = 600
-        const ballSpeedX = 50
         this.physics.add.existing(ball, false)
         ball.body.setCollideWorldBounds(true, 1, 1)
         ball.body.setVelocity(0, 0)
@@ -133,10 +143,7 @@ class Game extends Phaser.Scene
                 paddle.body.position.x += paddleSpeed
             }
         }
-
-
     }
-
 }
 
 export default Game
