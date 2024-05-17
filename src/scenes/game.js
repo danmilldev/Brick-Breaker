@@ -1,9 +1,5 @@
 import Phaser from "phaser";
-
-let colors = {
-    white: 0xffffff,
-    black: 0x000000,
-}
+import colors from "../helpers/colors";
 
 class Game extends Phaser.Scene
 {
@@ -31,6 +27,32 @@ class Game extends Phaser.Scene
         ball.body.setCollideWorldBounds(true, 1, 1)
         ball.body.setVelocity(ballSpeedX, ballSpeedY)
         ball.body.setBounce(1, 1)
+
+        this.physics.add.collider(paddle, ball)
+    }
+
+    update()
+    {
+        const cursors = this.input.keyboard.createCursorKeys()
+        const paddle = this.children.getByName("PlayerPaddle")
+        const paddleSpeed = 5
+
+        if(cursors.left.isDown)
+        {
+            if(paddle.x - 75 > 0)
+            {
+                paddle.body.position.x -= paddleSpeed
+                paddle.x -= paddleSpeed
+            }
+        }
+        else if (cursors.right.isDown)
+        {
+            if(paddle.x + 76 < this.sys.game.canvas.width)
+            {
+                paddle.x += paddleSpeed
+                paddle.body.position.x += paddleSpeed
+            }
+        }
     }
 
 }
