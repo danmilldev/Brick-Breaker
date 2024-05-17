@@ -157,7 +157,7 @@ class Game extends Phaser.Scene
             }
         }
 
-        if(ball.y == height - 10)
+        if(ball.y == height - ball.height)
         {
             if(isHitting)
             {
@@ -166,10 +166,12 @@ class Game extends Phaser.Scene
 
                 if(lives <= 0 || lives > 3)
                 {
+                    // reset stats
                     ball.x = paddleStartPosX
                     lives = 3
                     points = 0
                     isBallMoving = false
+
                     this.scene.switch(scenesManager.MenuScene)
                 }
 
