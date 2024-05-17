@@ -1,6 +1,10 @@
 import Phaser from "phaser";
 import colors from "../helpers/colors";
 
+const paddleWidth = 125
+const paddleHeight = 20
+let isBallMoving = false
+
 class Game extends Phaser.Scene
 {
     constructor() {super({ key: "GameScene"})}
@@ -14,9 +18,6 @@ class Game extends Phaser.Scene
 
         // addint top ui background
         const topBackground = this.add.rectangle(0, 0, width * 2, 50, colors.magenta)
-
-        const paddleWidth = 150
-        const paddleHeight = 20
 
         // player paddle
         const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.white)
@@ -34,15 +35,55 @@ class Game extends Phaser.Scene
         ball.body.setVelocity(0, 0)
         ball.body.setBounce(1, 1)
 
+        // adding the collider between paddle and ball
         this.physics.add.collider(paddle, ball)
 
+        // press Space to start letting the ball move
         this.input.keyboard.on('keydown', event =>
         {
             if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.SPACE)
             {
                 ball.body.setVelocity(ballSpeedX, ballSpeedY)
+                isBallMoving = true
             }
         })
+
+        // spawning bricks to break
+
+        const rows = 4
+        const bricks = 9
+
+        const brickWidth = 50
+        const brickHeight = 25
+
+        let spawnStartPosX = 75
+        let spawnStartPosY = 70
+
+        for (let index = 0; index < rows; index++) {
+            for (let index = 0; index < bricks; index++) {
+                
+                let newBrick = this.add.rectangle(spawnStartPosX, spawnStartPosY, brickWidth, brickHeight, colors.green)
+                newBrick.setName("BrickRect")
+                this.physics.add.existing(newBrick, true)
+                
+                spawnStartPosX += 100
+                
+                this.physics.add.collider(newBrick, ball, () => {
+                    newBrick.destroy()
+                })
+            }
+
+            if(index % 2 == 0)
+            {
+                spawnStartPosX = 125
+                spawnStartPosY += 40
+            }
+            else
+            {
+                spawnStartPosX = 75
+                spawnStartPosY += 40
+            }
+        }
     }
 
     update()
@@ -51,17 +92,17 @@ class Game extends Phaser.Scene
         const paddle = this.children.getByName("PlayerPaddle")
         const paddleSpeed = 5
 
-        if(cursors.left.isDown)
+        if(cursors.left.isDown && isBallMoving)
         {
-            if(paddle.x - 75 > 0)
+            if(paddle.x - (paddleWidth / 2) > 0)
             {
                 paddle.body.position.x -= paddleSpeed
                 paddle.x -= paddleSpeed
             }
         }
-        else if (cursors.right.isDown)
+        else if (cursors.right.isDown && isBallMoving)
         {
-            if(paddle.x + 76 < this.sys.game.canvas.width)
+            if(paddle.x + (paddleWidth / 2) < this.sys.game.canvas.width)
             {
                 paddle.x += paddleSpeed
                 paddle.body.position.x += paddleSpeed
