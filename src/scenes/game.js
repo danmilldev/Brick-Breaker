@@ -37,7 +37,6 @@ class Game extends Phaser.Scene
 
     create()
     {
-        
         this.physics.world.bounds.top = 30
 
         let {width, height} = this.sys.game.canvas
@@ -52,6 +51,8 @@ class Game extends Phaser.Scene
 
         const pointsText = this.add.text(0, 5, "Points: " + points)
         pointsText.setName("PointsText")
+
+        const startText = this.add.text((width / 2 - 125), height / 2, "Press Spacebar to Start!")
 
         // player paddle
         const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.blue)
@@ -77,12 +78,13 @@ class Game extends Phaser.Scene
                 console.log(newDirection);
                 ball.body.setVelocity(newDirection.x, newDirection.y)
                 isBallMoving = true
+                startText.visible = false
             }
         })
 
         // spawning bricks to break
 
-        const rows = 4
+        const rows = 2
         const bricks = 9
 
         const brickWidth = 50
@@ -101,6 +103,8 @@ class Game extends Phaser.Scene
                 spawnStartPosX += 100
                 
                 this.physics.add.collider(newBrick, ball, () => {
+                    points += 10
+                    pointsText.setText("Points: " + points)
                     newBrick.destroy()
                 })
             }
