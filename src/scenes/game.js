@@ -5,6 +5,28 @@ const paddleWidth = 125
 const paddleHeight = 20
 let isBallMoving = false
 
+const leftBottomDirection = {
+    x: -600,
+    y: 300
+}
+
+const rightBottomDirection = {
+    x: 600,
+    y: 300
+}
+
+const leftTopDirection = {
+    x: -600,
+    y: -300
+}
+
+const rightTopDirection = {
+    x: 600,
+    y: -300
+}
+
+let directionsArray = [leftBottomDirection, rightBottomDirection, leftTopDirection, rightTopDirection]
+
 class Game extends Phaser.Scene
 {
     constructor() {super({ key: "GameScene"})}
@@ -30,20 +52,20 @@ class Game extends Phaser.Scene
         ball.setName("Ball")
         const ballSpeedY = 600
         const ballSpeedX = 50
-        this.physics.add.existing(ball)
+        this.physics.add.existing(ball, false)
         ball.body.setCollideWorldBounds(true, 1, 1)
         ball.body.setVelocity(0, 0)
         ball.body.setBounce(1, 1)
 
-        // adding the collider between paddle and ball
-        this.physics.add.collider(paddle, ball)
-
         // press Space to start letting the ball move
         this.input.keyboard.on('keydown', event =>
         {
-            if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.SPACE)
+            if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.SPACE && !isBallMoving)
             {
-                ball.body.setVelocity(ballSpeedX, ballSpeedY)
+                let directionCount = Math.floor(Math.random() * (directionsArray.length ))
+                let newDirection = directionsArray[directionCount]
+                console.log(newDirection);
+                ball.body.setVelocity(newDirection.x, newDirection.y)
                 isBallMoving = true
             }
         })
@@ -84,6 +106,9 @@ class Game extends Phaser.Scene
                 spawnStartPosY += 40
             }
         }
+
+        // adding the collider between paddle and ball
+        this.physics.add.collider(paddle, ball)
     }
 
     update()
