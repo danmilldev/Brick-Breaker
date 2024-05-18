@@ -123,7 +123,9 @@ class Game extends Phaser.Scene
         }
 
         // adding the collider between paddle and ball
-        this.physics.add.collider(paddle, ball)
+        this.physics.add.collider(paddle, ball, () => {
+            // TODO: adding behaviour if sides of paddles are hit the ball goes left or right sided
+        })
     }
 
     update()
@@ -163,6 +165,8 @@ class Game extends Phaser.Scene
                 lives -= 1
                 livesText.setText("Lives: " + lives)
 
+                // TODO: on live lost reset reset ball show text and reset paddle and set velocity to 0 again
+
                 if(lives <= 0 || lives > 3)
                 {
                     // reset stats
@@ -172,7 +176,7 @@ class Game extends Phaser.Scene
                     isBallMoving = false
 
                     this.scene.stop(scenesManager.GameScene)
-                    this.scene.switch(scenesManager.LostScene)
+                    this.scene.run(scenesManager.LostScene)
                 }
 
                 isHitting = false
