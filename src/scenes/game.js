@@ -67,7 +67,6 @@ class Game extends Phaser.Scene
         // player paddle
         paddleStartPosX = (width / 2) - (paddleHeight / 2)
         paddleStartPosY = height - paddleHeight
-        console.log("paddle x: " + paddleStartPosX + " paddle y: " + paddleStartPosY);
         const paddle = this.add.rectangle(paddleStartPosX, paddleStartPosY, paddleWidth, paddleHeight, colors.blue)
         paddle.setName("PlayerPaddle")
         this.physics.add.existing(paddle, true)
@@ -184,8 +183,6 @@ class Game extends Phaser.Scene
                 startText.visible = true
                 isBallMoving = false
                 
-                console.log("paddle x: " + paddleStartPosX + " y: " + paddleStartPosY);
-
                 paddle.x = paddleStartPosX
                 paddle.y = paddleStartPosY
                 paddle.body.x = paddleStartBodyPosX
