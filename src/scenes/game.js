@@ -59,7 +59,7 @@ class Game extends Phaser.Scene
 
         const startText = this.add.text((width / 2 - 125), height / 2, "Press Spacebar to Start!")
         startText.setName("StartHelpText")
-        
+
         // player paddle
         const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.blue)
         paddle.setName("PlayerPaddle")
@@ -149,7 +149,7 @@ class Game extends Phaser.Scene
         if(cursors.left.isDown && isBallMoving)
         {
             if(paddle.x - (paddleWidth / 2) > 0)
-            {
+            {                
                 paddle.body.position.x -= paddleSpeed
                 paddle.x -= paddleSpeed
             }
@@ -158,8 +158,8 @@ class Game extends Phaser.Scene
         {
             if(paddle.x + (paddleWidth / 2) < this.sys.game.canvas.width)
             {
-                paddle.x += paddleSpeed
                 paddle.body.position.x += paddleSpeed
+                paddle.x += paddleSpeed
             }
         }
 
@@ -173,8 +173,6 @@ class Game extends Phaser.Scene
                 startText.visible = true
                 isBallMoving = false
                 ball.body.setVelocity(0,0)
-                paddle.x = (width / 2) - (paddleHeight / 2)
-                paddle.body.position.x = (width / 2) - (paddleHeight / 2)
                 ball.x = paddle.getTopCenter().x
                 ball.y = paddle.getTopCenter().y - 30
 
