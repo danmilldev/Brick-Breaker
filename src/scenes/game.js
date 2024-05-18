@@ -7,8 +7,6 @@ let points = 0
 
 const paddleWidth = 125
 const paddleHeight = 20
-let paddleStartX = 0
-let paddleStartY = 0
 
 let isBallMoving = false
 let isHitting = true
@@ -61,6 +59,7 @@ class Game extends Phaser.Scene
 
         const startText = this.add.text((width / 2 - 125), height / 2, "Press Spacebar to Start!")
         startText.setName("StartHelpText")
+        
         // player paddle
         const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.blue)
         paddle.setName("PlayerPaddle")
@@ -170,8 +169,6 @@ class Game extends Phaser.Scene
             {
                 lives -= 1
                 livesText.setText("Lives: " + lives)
-
-                // TODO: on live lost reset reset ball show text and reset paddle and set velocity to 0 again
 
                 startText.visible = true
                 isBallMoving = false
