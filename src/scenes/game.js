@@ -7,27 +7,32 @@ let points = 0
 
 const paddleWidth = 125
 const paddleHeight = 20
+let paddleStartX = 0
+let paddleStartY = 0
+
 let isBallMoving = false
 let isHitting = true
+const ballSpeedX = 600
+const ballSpeedY = 300
 
 const leftBottomDirection = {
-    x: -600,
-    y: 300
+    x: -ballSpeedX,
+    y: ballSpeedY
 }
 
 const rightBottomDirection = {
-    x: 600,
-    y: 300
+    x: ballSpeedX,
+    y: ballSpeedY
 }
 
 const leftTopDirection = {
-    x: -600,
-    y: -300
+    x: -ballSpeedX,
+    y: -ballSpeedY
 }
 
 const rightTopDirection = {
-    x: 600,
-    y: -300
+    x: ballSpeedX,
+    y: -ballSpeedY
 }
 
 let directionsArray = [leftBottomDirection, rightBottomDirection, leftTopDirection, rightTopDirection]
@@ -55,7 +60,7 @@ class Game extends Phaser.Scene
         pointsText.setName("PointsText")
 
         const startText = this.add.text((width / 2 - 125), height / 2, "Press Spacebar to Start!")
-
+        startText.setName("StartHelpText")
         // player paddle
         const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.blue)
         paddle.setName("PlayerPaddle")
@@ -138,6 +143,7 @@ class Game extends Phaser.Scene
         const ball = this.children.getByName("Ball")
 
         const livesText = this.children.getByName("LivesText")
+        const startText = this.children.getByName("StartHelpText")
         let {width, height} = this.sys.game.canvas
         const paddleStartPosX = (width / 2) - (paddleHeight / 2)
 
@@ -166,6 +172,14 @@ class Game extends Phaser.Scene
                 livesText.setText("Lives: " + lives)
 
                 // TODO: on live lost reset reset ball show text and reset paddle and set velocity to 0 again
+
+                startText.visible = true
+                isBallMoving = false
+                ball.body.setVelocity(0,0)
+                paddle.x = (width / 2) - (paddleHeight / 2)
+                paddle.body.position.x = (width / 2) - (paddleHeight / 2)
+                ball.x = paddle.getTopCenter().x
+                ball.y = paddle.getTopCenter().y - 30
 
                 if(lives <= 0 || lives > 3)
                 {
