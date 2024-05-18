@@ -1,5 +1,6 @@
 export default sceneManager = {
     "GameScene": "GameScene",
     "MenuScene": "MenuScene",
-    "LostScene": "LostScene"
+    "LostScene": "LostScene",
+    "WinScene": "WinScene"
 }

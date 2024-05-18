@@ -16,6 +16,7 @@ let isBallMoving = false
 let isHitting = true
 const ballSpeedX = 600
 const ballSpeedY = 300
+const ballRadius = 10
 
 const leftBottomDirection = {
     x: -ballSpeedX,
@@ -73,7 +74,7 @@ class Game extends Phaser.Scene
         
 
         // ball to play with
-        const ball = this.add.circle(width / 2 - 10, paddle.getTopCenter().y - 20, 10, colors.red)
+        const ball = this.add.circle(width / 2 - 10, paddle.getTopCenter().y - 20, ballRadius, colors.red)
         ball.setName("Ball")
         this.physics.add.existing(ball, false)
         ball.body.setCollideWorldBounds(true, 1, 1)
@@ -139,7 +140,6 @@ class Game extends Phaser.Scene
 
         paddleStartBodyPosX = paddle.body.x
         paddleStartBodyPosY = paddle.body.y
-
     }
 
     update()
@@ -150,6 +150,8 @@ class Game extends Phaser.Scene
         const paddleSpeed = 5
 
         const ball = this.children.getByName("Ball")
+
+        const bricks = this.children.getAll().filter(gameObjectName => gameObjectName.name == "BrickRect")
 
         const livesText = this.children.getByName("LivesText")
         const startText = this.children.getByName("StartHelpText")
@@ -178,7 +180,6 @@ class Game extends Phaser.Scene
             {
                 lives -= 1
                 livesText.setText("Lives: " + lives)
-
 
                 startText.visible = true
                 isBallMoving = false
@@ -210,6 +211,18 @@ class Game extends Phaser.Scene
         else if(ball.y < height - (height / 10))
         {
             isHitting = true
+        }
+
+        if(bricks.length <= 0)
+        {
+            // reset stats
+            ball.x = paddleStartPosX
+            lives = 3
+            points = 0
+            isBallMoving = false
+
+            this.scene.stop(scenesManager.GameScene)
+            this.scene.run(scenesManager.WinScene)
         }
     }
 }
