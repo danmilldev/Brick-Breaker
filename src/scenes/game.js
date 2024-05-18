@@ -7,6 +7,10 @@ let points = 0
 
 const paddleWidth = 125
 const paddleHeight = 20
+let paddleStartPosX = 0
+let paddleStartPosY = 0
+let paddleStartBodyPosX = 0
+let paddleStartBodyPosY = 0
 
 let isBallMoving = false
 let isHitting = true
@@ -61,7 +65,10 @@ class Game extends Phaser.Scene
         startText.setName("StartHelpText")
 
         // player paddle
-        const paddle = this.add.rectangle((width / 2) - (paddleHeight / 2), height - paddleHeight, paddleWidth, paddleHeight, colors.blue)
+        paddleStartPosX = (width / 2) - (paddleHeight / 2)
+        paddleStartPosY = height - paddleHeight
+        console.log("paddle x: " + paddleStartPosX + " paddle y: " + paddleStartPosY);
+        const paddle = this.add.rectangle(paddleStartPosX, paddleStartPosY, paddleWidth, paddleHeight, colors.blue)
         paddle.setName("PlayerPaddle")
         this.physics.add.existing(paddle, true)
         
@@ -130,6 +137,10 @@ class Game extends Phaser.Scene
         this.physics.add.collider(paddle, ball, () => {
             // TODO: adding behaviour if sides of paddles are hit the ball goes left or right sided
         })
+
+        paddleStartBodyPosX = paddle.body.x
+        paddleStartBodyPosY = paddle.body.y
+
     }
 
     update()
@@ -144,7 +155,6 @@ class Game extends Phaser.Scene
         const livesText = this.children.getByName("LivesText")
         const startText = this.children.getByName("StartHelpText")
         let {width, height} = this.sys.game.canvas
-        const paddleStartPosX = (width / 2) - (paddleHeight / 2)
 
         if(cursors.left.isDown && isBallMoving)
         {
@@ -170,8 +180,17 @@ class Game extends Phaser.Scene
                 lives -= 1
                 livesText.setText("Lives: " + lives)
 
+
                 startText.visible = true
                 isBallMoving = false
+                
+                console.log("paddle x: " + paddleStartPosX + " y: " + paddleStartPosY);
+
+                paddle.x = paddleStartPosX
+                paddle.y = paddleStartPosY
+                paddle.body.x = paddleStartBodyPosX
+                paddle.body.y = paddleStartBodyPosY
+
                 ball.body.setVelocity(0,0)
                 ball.x = paddle.getTopCenter().x
                 ball.y = paddle.getTopCenter().y - 30
