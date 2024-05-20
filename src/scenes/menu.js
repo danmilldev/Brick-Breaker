@@ -7,8 +7,7 @@ class Menu extends Phaser.Scene
 
     create()
     {
-        this.add.text(this.sys.game.canvas.width / 2 - 100, this.sys.game.canvas.height / 2 - 100, "Brick Braker")
-        this.add.text(this.sys.game.canvas.width / 2 - 100, this.sys.game.canvas.height / 2 - 100 + 25, "Press Enter to play!")
+        this.add.text(this.sys.game.canvas.width / 2 - 100, this.sys.game.canvas.height / 2 - 100, "Won Game\nPress Enter to play!")
 
         this.input.keyboard.on('keydown', event =>
         {

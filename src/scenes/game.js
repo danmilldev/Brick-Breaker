@@ -209,11 +209,12 @@ class Game extends Phaser.Scene
                     // reset stats
                     ball.x = paddleStartPosX
                     lives = startLives
+                    const reachedPoints = points
                     points = 0
                     isBallMoving = false
 
                     this.scene.stop(scenesManager.GameScene)
-                    this.scene.start(scenesManager.LostScene)
+                    this.scene.start(scenesManager.LostScene, { score: reachedPoints})
                 }
 
                 isHitting = false
@@ -229,11 +230,12 @@ class Game extends Phaser.Scene
             // reset stats
             ball.x = paddleStartPosX
             lives = startLives
+            const reachedPoints = points
             points = 0
             isBallMoving = false
 
             this.scene.stop(scenesManager.GameScene)
-            this.scene.start(scenesManager.WinScene)
+            this.scene.start(scenesManager.WinScene, { score: reachedPoints})
         }
     }
 }
