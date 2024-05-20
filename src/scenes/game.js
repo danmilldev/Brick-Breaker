@@ -3,9 +3,10 @@ import colors from "../helpers/colors";
 import scenesManager from "../helpers/scenesManager";
 
 let lives = 3
+let startLives = 3
 let points = 0
 
-const paddleWidth = 125
+const paddleWidth = 200
 const paddleHeight = 20
 let paddleStartPosX = 0
 let paddleStartPosY = 0
@@ -135,7 +136,19 @@ class Game extends Phaser.Scene
 
         // adding the collider between paddle and ball
         this.physics.add.collider(paddle, ball, () => {
-            // TODO: adding behaviour if sides of paddles are hit the ball goes left or right sided
+            const leftCenter = paddle.getTopLeft().x + ((paddle.getTopCenter().x - paddle.getTopLeft().x) / 2)
+            const rightCenter = paddle.getTopCenter().x + ((paddle.getTopRight().x - paddle.getTopCenter().x) / 2)
+
+            if(ball.x < leftCenter && ball.x > paddle.getTopLeft().x)
+            {
+                ball.body.setVelocity(leftTopDirection.x, leftTopDirection.y)
+                console.log("left side touched");
+            }
+            else if(ball.x > rightCenter && ball.x < paddle.getTopRight().x)
+            {
+                ball.body.setVelocity(rightTopDirection.x, rightTopDirection.y)
+                console.log("right side touched");
+            }
         })
 
         paddleStartBodyPosX = paddle.body.x
@@ -197,7 +210,7 @@ class Game extends Phaser.Scene
                 {
                     // reset stats
                     ball.x = paddleStartPosX
-                    lives = 3
+                    lives = startLives
                     points = 0
                     isBallMoving = false
 
@@ -217,7 +230,7 @@ class Game extends Phaser.Scene
         {
             // reset stats
             ball.x = paddleStartPosX
-            lives = 3
+            lives = startLives
             points = 0
             isBallMoving = false
 
