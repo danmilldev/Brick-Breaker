@@ -142,12 +142,10 @@ class Game extends Phaser.Scene
             if(ball.x < leftCenter && ball.x > paddle.getTopLeft().x)
             {
                 ball.body.setVelocity(leftTopDirection.x, leftTopDirection.y)
-                console.log("left side touched");
             }
             else if(ball.x > rightCenter && ball.x < paddle.getTopRight().x)
             {
                 ball.body.setVelocity(rightTopDirection.x, rightTopDirection.y)
-                console.log("right side touched");
             }
         })
 
