@@ -15,7 +15,7 @@ class Lost extends Phaser.Scene
             if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.ENTER)
             {
                 this.scene.stop(scenesManager.LostScene)
-                this.scene.run(scenesManager.GameScene)
+                this.scene.start(scenesManager.GameScene)
             }
         })
     }

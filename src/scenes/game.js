@@ -213,7 +213,7 @@ class Game extends Phaser.Scene
                     isBallMoving = false
 
                     this.scene.stop(scenesManager.GameScene)
-                    this.scene.run(scenesManager.LostScene)
+                    this.scene.start(scenesManager.LostScene)
                 }
 
                 isHitting = false
@@ -233,7 +233,7 @@ class Game extends Phaser.Scene
             isBallMoving = false
 
             this.scene.stop(scenesManager.GameScene)
-            this.scene.run(scenesManager.WinScene)
+            this.scene.start(scenesManager.WinScene)
         }
     }
 }
