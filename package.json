@@ -2,9 +2,9 @@
   "name": "brick-breaker",
   "version": "1.0.0",
   "description": "A Simple Brick Breaker Game in Phaser 3",
-  "main": "index.js",
   "scripts": {
-    "dev": "parcel ./src/index.html -p 8000"
+    "dev": "parcel ./src/index.html -p 8000",
+    "build": "parcel build src/index.html"
   },
   "keywords": [],
   "author": "",

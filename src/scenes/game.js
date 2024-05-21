@@ -34,6 +34,8 @@ const defaultStartPosY = 70
 let spawnStartPosX = 75
 let spawnStartPosY = 70
 
+// directions in wich the ball should move
+
 const leftBottomDirection = {
     x: -ballSpeedX,
     y: ballSpeedY
