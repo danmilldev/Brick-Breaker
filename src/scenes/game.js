@@ -6,18 +6,33 @@ let lives = 3
 let startLives = 3
 let points = 0
 
-const paddleWidth = 200
+// paddle adjustments
+let paddleWidth = 200
 const paddleHeight = 20
 let paddleStartPosX = 0
 let paddleStartPosY = 0
 let paddleStartBodyPosX = 0
 let paddleStartBodyPosY = 0
 
+
+// ball adjustments
 let isBallMoving = false
 let isHitting = true
 const ballSpeedX = 600
 const ballSpeedY = 300
 const ballRadius = 10
+
+// bricks generation
+
+let rows = 2
+const bricks = 9
+
+const brickWidth = 50
+const brickHeight = 25
+
+const defaultStartPosY = 70
+let spawnStartPosX = 75
+let spawnStartPosY = 70
 
 const leftBottomDirection = {
     x: -ballSpeedX,
@@ -47,17 +62,26 @@ class Game extends Phaser.Scene
 
     init(data)
     {
+        // default values
+        spawnStartPosY = defaultStartPosY
+        lives = startLives
+        points = 0
+        isBallMoving = false
+
         if(data.difficulty == 0) // easy
         {
-            
+            paddleWidth = 200
+            rows = 2
         }
         else if(data.difficulty == 1) // medium
         {
-            
+            rows = 4
+            paddleWidth = 150
         }
         else if(data.difficulty == 2) // hard
         {
-            
+            rows = 6
+            paddleWidth = 100
         }
     }
 
@@ -116,15 +140,6 @@ class Game extends Phaser.Scene
         })
 
         // spawning bricks to break
-
-        const rows = 2
-        const bricks = 9
-
-        const brickWidth = 50
-        const brickHeight = 25
-
-        let spawnStartPosX = 75
-        let spawnStartPosY = 70
 
         for (let index = 0; index < rows; index++) {
             for (let index = 0; index < bricks; index++) {
@@ -226,13 +241,7 @@ class Game extends Phaser.Scene
 
                 if(lives <= 0 || lives > 3)
                 {
-                    // reset stats
-                    ball.x = paddleStartPosX
-                    lives = startLives
                     const reachedPoints = points
-                    points = 0
-                    isBallMoving = false
-
                     this.scene.stop(scenesManager.GameScene)
                     this.scene.start(scenesManager.LostScene, { score: reachedPoints})
                 }
@@ -247,13 +256,7 @@ class Game extends Phaser.Scene
 
         if(bricks.length <= 0)
         {
-            // reset stats
-            ball.x = paddleStartPosX
-            lives = startLives
             const reachedPoints = points
-            points = 0
-            isBallMoving = false
-
             this.scene.stop(scenesManager.GameScene)
             this.scene.start(scenesManager.WinScene, { score: reachedPoints})
         }
