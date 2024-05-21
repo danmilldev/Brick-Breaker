@@ -45,6 +45,21 @@ class Game extends Phaser.Scene
 {
     constructor() {super({ key: scenesManager.GameScene})}
 
+    init(data)
+    {
+        if(data.difficulty == 0) // easy
+        {
+            
+        }
+        else if(data.difficulty == 1) // medium
+        {
+            
+        }
+        else if(data.difficulty == 2) // hard
+        {
+            
+        }
+    }
 
     create()
     {
@@ -92,6 +107,11 @@ class Game extends Phaser.Scene
                 ball.body.setVelocity(newDirection.x, newDirection.y)
                 isBallMoving = true
                 startText.visible = false
+            }
+            if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC)
+            {
+                this.scene.stop(scenesManager.GameScene)
+                this.scene.start(scenesManager.MenuScene)
             }
         })
 
