@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import scenesManager from "../helpers/scenesManager";
+import scenesManager from "/src/helpers/scenesManager";
 
 let gameScore = 0
 

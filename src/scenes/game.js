@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import colors from "../helpers/colors";
-import scenesManager from "../helpers/scenesManager";
+import colors from "/src/helpers/colors";
+import scenesManager from "/src/helpers/scenesManager";
 
 let lives = 3
 let startLives = 3

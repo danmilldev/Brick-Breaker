@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import scenesManager from "../helpers/scenesManager";
-import colors from "../helpers/colors";
+import scenesManager from "/src/helpers/scenesManager";
+import colors from "/src/helpers/colors";
 
 class Menu extends Phaser.Scene
 {
